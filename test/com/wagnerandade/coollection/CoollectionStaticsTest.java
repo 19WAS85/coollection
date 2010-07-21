@@ -32,8 +32,9 @@ public class CoollectionStaticsTest {
 		assertThat(filtered.get(0).name(), is("Cat"));
 	}
 	
+	@Test
 	public void should_be_possible_create_a_filter_and_take_first_result() {
-		Animal first = from(animals).where("age", eq("2")).first();
+		Animal first = from(animals).where("age", eq(2)).first();
 		assertThat(first.name(), is("Bird"));
 	}
 	
