@@ -1,6 +1,8 @@
 Coolection
 ----------
 
+import static com.wagnerandade.coollection.Coollection.*;
+
 // Gets all cats.
 from(animals).where("name", eq("Cat")).all();
 
