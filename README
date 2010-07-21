@@ -1,0 +1,17 @@
+Coolection
+----------
+
+ArrayList<Animal> animals = new ArrayList<Animal>();
+
+// Animal(name, age)
+animals.add(new Animal("Lion", 10));
+animals.add(new Animal("Cat", 5));
+animals.add(new Animal("Dog", 5));
+animals.add(new Animal("Bird", 2));
+animals.add(new Animal("Cat", 3));
+
+// Gets all cats.
+from(animals).where("name", eq("Cat")).all();
+
+// Gets first animal with two years old.
+from(animals).where("age", eq(2)).first();
