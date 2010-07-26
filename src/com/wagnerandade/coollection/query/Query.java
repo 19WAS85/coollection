@@ -5,26 +5,34 @@ import java.util.Collection;
 import java.util.List;
 
 import com.wagnerandade.coollection.matcher.Matcher;
+import com.wagnerandade.coollection.query.specification.SpecificationList;
+import com.wagnerandade.coollection.query.specification.criteria.Criteria;
+import com.wagnerandade.coollection.query.specification.custom.AndSpecification;
 
 public class Query<T> {
 
 	private final Collection<T> collection;
-	private final ArrayList<Criteria<T>> criterias;
+	private final SpecificationList<T> specifications;
 
 	public Query(Collection<T> collection) {
 		this.collection = collection;
-		criterias = new ArrayList<Criteria<T>>();
+		specifications = new SpecificationList<T>();
 	}
 
 	public Query<T> where(String method, Matcher matcher) {
-		criterias.add(new Criteria<T>(method, matcher));
+		specifications.add(new AndSpecification<T>(new Criteria<T>(method, matcher)));
+		return this;
+	}
+
+	public Query<T> and(String method, Matcher matcher) {
+		specifications.last().add(new Criteria<T>(method, matcher));
 		return this;
 	}
 
 	public List<T> all() {
 		List<T> all = new ArrayList<T>();
 		for(T item : collection) {
-			if(allCriteriasMatch(item)) {
+			if(specifications.match(item)) {
 				all.add(item);
 			}
 		}
@@ -33,20 +41,11 @@ public class Query<T> {
 
 	public T first() {
 		for(T item : collection) {
-			if(allCriteriasMatch(item)) {
+			if(specifications.match(item)) {
 				return item;
 			}
 		}
 		return null;
-	}
-
-	private boolean allCriteriasMatch(T item) {
-		for(Criteria<T> criteria : criterias) {
-			if(!criteria.match(item)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 }

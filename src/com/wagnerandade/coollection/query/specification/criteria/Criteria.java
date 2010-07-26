@@ -1,4 +1,4 @@
-package com.wagnerandade.coollection.query;
+package com.wagnerandade.coollection.query.specification.criteria;
 
 import java.lang.reflect.Method;
 

@@ -38,4 +38,11 @@ public class CoollectionStaticsTest {
 		assertThat(first.name(), is("Bird"));
 	}
 	
+	@Test
+	public void should_be_possible_create_and_filters() {
+		List<Animal> result = from(animals).where("name", eq("Cat")).and("age", eq(3)).all();
+		assertThat(result.size(), is(1));
+		assertThat(result.get(0).name(), is("Cat"));
+		assertThat(result.get(0).age(), is(3));
+	}
 }
