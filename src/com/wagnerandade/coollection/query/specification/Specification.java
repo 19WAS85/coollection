@@ -1,25 +1,39 @@
 package com.wagnerandade.coollection.query.specification;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Method;
 
-import com.wagnerandade.coollection.query.specification.criteria.Criteria;
+import com.wagnerandade.coollection.matcher.Matcher;
 
 public abstract class Specification<T> {
 	
-	private List<Criteria<T>> criterias;
-	
-	public Specification(Criteria<T> criteria) {
-		criterias = new ArrayList<Criteria<T>>();
-		criterias.add(criteria);
+	private final String method;
+	private final Matcher matcher;
+	private Specification<T> next;
+
+	public Specification(String method, Matcher matcher) {
+		this.method = method;
+		this.matcher = matcher;
 	}
 
-	public void add(Criteria<T> criteria) {
-		criterias.add(criteria);
+	public void setNext(Specification<T> specification) {
+		next = specification;
 	}
 	
-	public List<Criteria<T>> criterias() {
-		return criterias;
+	public Specification<T> next() {
+		return next;
+	}
+	
+	public Matcher matcher() {
+		return matcher;
+	}
+	
+	protected Object methodValue(Object item) {
+		try {
+			Method m = item.getClass().getMethod(method);
+			return m.invoke(item);
+		} catch(Exception err) {
+			throw new RuntimeException(err);
+		}
 	}
 	
 	public abstract boolean match(T item);

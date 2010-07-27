@@ -5,34 +5,33 @@ import java.util.Collection;
 import java.util.List;
 
 import com.wagnerandade.coollection.matcher.Matcher;
-import com.wagnerandade.coollection.query.specification.SpecificationList;
-import com.wagnerandade.coollection.query.specification.criteria.Criteria;
+import com.wagnerandade.coollection.query.specification.Specification;
 import com.wagnerandade.coollection.query.specification.custom.AndSpecification;
 
 public class Query<T> {
 
 	private final Collection<T> collection;
-	private final SpecificationList<T> specifications;
+	private Specification<T> lastSpecification;
 
 	public Query(Collection<T> collection) {
 		this.collection = collection;
-		specifications = new SpecificationList<T>();
 	}
 
 	public Query<T> where(String method, Matcher matcher) {
-		specifications.add(new AndSpecification<T>(new Criteria<T>(method, matcher)));
+		lastSpecification = new AndSpecification<T>(method, matcher);
 		return this;
 	}
 
 	public Query<T> and(String method, Matcher matcher) {
-		specifications.last().add(new Criteria<T>(method, matcher));
+		AndSpecification<T> specification = new AndSpecification<T>(method, matcher);
+		setNext(specification);
 		return this;
 	}
 
 	public List<T> all() {
 		List<T> all = new ArrayList<T>();
 		for(T item : collection) {
-			if(specifications.match(item)) {
+			if(lastSpecification.match(item)) {
 				all.add(item);
 			}
 		}
@@ -41,11 +40,16 @@ public class Query<T> {
 
 	public T first() {
 		for(T item : collection) {
-			if(specifications.match(item)) {
+			if(lastSpecification.match(item)) {
 				return item;
 			}
 		}
 		return null;
+	}
+
+	private void setNext(Specification<T> specification) {
+		lastSpecification.setNext(specification);
+		lastSpecification = specification;
 	}
 
 }
