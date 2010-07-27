@@ -1,0 +1,18 @@
+h2. Coolection
+
+A cool way to manipulate collections in Java.
+
+<pre>
+import static com.wagnerandade.coollection.Coollection.*;
+
+List<Animal> animals;
+
+// Returns all cats.
+from(animals).where("name", eq("Cat")).all();
+
+// Returns first animal with two years old.
+from(animals).where("age", eq(2)).first();
+
+// Returns all animals named Lion or with 2 years old.
+from(animals).where("name", eq("Lion")).or("age", eq(2)).all();
+</pre>
