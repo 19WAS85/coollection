@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.is;
 
 import static com.wagnerandade.coollection.Coollection.*;
 
-public class CoollectionStaticsTest {
+public class CoollectionTest {
 	
 	private ArrayList<Animal> animals;
 	
@@ -23,6 +23,7 @@ public class CoollectionStaticsTest {
 		animals.add(new Animal("Dog", 5));
 		animals.add(new Animal("Bird", 2));
 		animals.add(new Animal("Cat", 3));
+		animals.add(new Animal(null, -200));
 	}
 	
 	@Test
@@ -47,10 +48,46 @@ public class CoollectionStaticsTest {
 	}
 	
 	@Test
-	public void should_be_possible_user_or_filters() {
+	public void should_be_possible_use_or_filters() {
 		List<Animal> result = from(animals).where("name", eq("Lion")).or("age", eq(2)).all();
 		assertThat(result.size(), is(2));
 		assertThat(result.get(0).name(), is("Lion"));
 		assertThat(result.get(1).name(), is("Bird"));
+	}
+	
+	@Test
+	public void should_be_possible_use_contains_matcher() {
+		List<Animal> result = from(animals).where("name", contains("i")).all();
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0).name(), is("Lion"));
+		assertThat(result.get(1).name(), is("Bird"));
+	}
+	
+	@Test
+	public void should_be_possible_to_use_not_in_any_matcher() {
+		List<Animal> result = from(animals).where("name", not(contains("i"))).all();
+		assertThat(result.size(), is(4));
+		assertThat(result.get(1).name(), is("Dog"));
+	}
+	
+	@Test
+	public void should_be_possible_to_take_greater_than() {
+		List<Animal> result = from(animals).where("age", greaterThan(3)).all();
+		assertThat(result.size(), is(3));
+		assertThat(result.get(0).name(), is("Lion"));
+	}
+	
+	@Test
+	public void should_be_possible_to_take_less_than() {
+		List<Animal> result = from(animals).where("age", lessThan(3)).all();
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0).name(), is("Bird"));
+	}
+	
+	@Test
+	public void should_be_possible_to_take_null_values() {
+		List<Animal> result = from(animals).where("name", isNull()).all();
+		assertThat(result.size(), is(1));
+		assertThat(result.get(0).age(), is(-200));
 	}
 }
