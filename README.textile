@@ -1,10 +1,10 @@
 h1. Coollection
 
-A cool way to manipulate collections in Java.
+*A cool way to manipulate collections in Java.*
 
-Iterate over a collection is a medieval way to filtering, mapping and ordering. And with Java we are used to work like that.
+Iterate over a collection is a medieval way to filtering, mapping and ordering. And with Java we are used to work like that. Coollection changes that, is the future, while closures don't arrives for Java.
 
-Coollection changes that, is the future, while closures don't arrives for Java.
+"Download Coollection 0.1.0":http://github.com/downloads/wagnerandrade/coollection/coollection-0.1.0.jar
 
 h2. How it works?
 
