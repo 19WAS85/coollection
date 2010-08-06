@@ -72,4 +72,10 @@ from(animals).where("name", eq("Cat")).orderBy("age").all();
 from(animals).where("age", eq(5)).orderBy("name", Order.DESC).first();
 </pre>
 
+You can use just order, without filter.
+
+<pre>
+from(animals).orderBy("name");
+</pre>
+
 Be happy!
