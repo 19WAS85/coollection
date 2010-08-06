@@ -12,6 +12,8 @@ It's easy to use. Just add @import static com.wagnerandade.coollection.Coollecti
 
 h2. How to use this?
 
+h3. 1 - Filter
+
 First you need a Collection. Here we create a Animal List, and we called it animals.
 
 <pre>
@@ -32,12 +34,16 @@ Or, would the *first* animal with 2 year old? Easy too!
 from(animals).where("age", eq(2)).first();
 </pre>
 
+h3. 2 - Filter specification
+
 You can be more specific in your query, adding more specifications, like *and* and *or*.
 
 <pre>
 from(animals).where("name", eq("Lion")).and("age", eq(2)).all();
 from(animals).where("name", eq("Dog")).or("age", eq(5)).all();
 </pre>
+
+h3. 3 - Matchers
 
 There are other matchers to be precise!
 
@@ -55,6 +61,15 @@ Or a special matcher, called *not*.
 not(eq("Bird"))
 not(contains("at"))
 not(isNull())
+</pre>
+
+h3. 4 - Order
+
+Order is a very interesting feature to sort your collection.
+
+<pre>
+from(animals).where("name", eq("Cat")).orderBy("age").all();
+from(animals).where("age", eq(5)).orderBy("name", Order.DESC).first();
 </pre>
 
 Be happy!
