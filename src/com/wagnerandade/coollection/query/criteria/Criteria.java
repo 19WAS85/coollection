@@ -1,9 +1,8 @@
 package com.wagnerandade.coollection.query.criteria;
 
-import java.lang.reflect.Method;
-
 import com.wagnerandade.coollection.matcher.Matcher;
 import com.wagnerandade.coollection.query.specification.Specification;
+import com.wagnerandade.coollection.reflection.Phanton;
 
 public class Criteria<T> {
 	
@@ -26,8 +25,7 @@ public class Criteria<T> {
 	
 	public boolean match(T item) {
 		try {
-			Method m = item.getClass().getMethod(method);
-			Object value = m.invoke(item);
+			Object value = Phanton.from(item).call(method);
 			return matcher.match(value);
 		} catch(Exception err) {
 			throw new RuntimeException(err);

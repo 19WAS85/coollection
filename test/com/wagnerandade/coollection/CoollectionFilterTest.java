@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.is;
 
 import static com.wagnerandade.coollection.Coollection.*;
 
-public class CoollectionTest {
+public class CoollectionFilterTest {
 	
 	private ArrayList<Animal> animals;
 	
