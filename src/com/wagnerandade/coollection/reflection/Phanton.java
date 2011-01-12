@@ -2,6 +2,8 @@ package com.wagnerandade.coollection.reflection;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
 public class Phanton<T> {
 	
 	private final T target;
@@ -17,11 +19,19 @@ public class Phanton<T> {
 	}
 	
 	public Object call(String method) {
+		try{
+			return invoke(method);
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+
+	private Object invoke(String method) throws Exception {
 		try {
 			Method m = clazz.getMethod(method);
 			return m.invoke(target);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		}catch(NoSuchMethodException e){
+			return PropertyUtils.getProperty(target, method);
 		}
 	}
 	
