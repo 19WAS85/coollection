@@ -18,20 +18,20 @@ public class Phanton<T> {
 		return new Phanton<T>(target);
 	}
 	
-	public Object call(String method) {
+	public Object call(String name) {
 		try{
-			return invoke(method);
+			return invoke(name);
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}
 
-	private Object invoke(String method) throws Exception {
+	private Object invoke(String name) throws Exception {
 		try {
-			Method m = clazz.getMethod(method);
+			Method m = clazz.getMethod(name);
 			return m.invoke(target);
 		}catch(NoSuchMethodException e){
-			return PropertyUtils.getProperty(target, method);
+			return PropertyUtils.getProperty(target, name);
 		}
 	}
 	

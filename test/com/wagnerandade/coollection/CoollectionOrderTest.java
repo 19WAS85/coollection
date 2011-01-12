@@ -57,7 +57,7 @@ public class CoollectionOrderTest {
 		List<Animal> animals = new ArrayList<Animal>();
 		animals.add(new Animal("Tapir", 5, "Tapirus bairdii"));
 		animals.add(new Animal("Chicken", 3, "Gallus gallus domesticus"));
-		animals.add(new Animal("Unkown", 2, null));
+		animals.add(new Animal("Unkown Animal", 2, null));
 		Animal animal = from(animals).orderBy("scientificName").first();
 		assertThat(animal.name(), is("Chicken"));
 	}

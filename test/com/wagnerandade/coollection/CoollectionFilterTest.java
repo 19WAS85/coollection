@@ -93,7 +93,7 @@ public class CoollectionFilterTest {
 	
 	@Test
 	public void should_be_possible_create_a_filter_in_a_collection_looking_for_ugly_javabeans_conventions() {
-		Animal tapir = new Animal("Tapir", 5, "Tapirus bairdii");
+		Animal tapir = new Animal("Tapir", 3, "Tapirus bairdii");
 		animals.add(tapir);
 		List<Animal> filtered = from(animals).where("scientificName", eq("Tapirus bairdii")).and("live", eq(true)).all();
 		assertThat(filtered.size(), is(1));

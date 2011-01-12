@@ -32,6 +32,6 @@ public class Animal {
 	
 	public String getScientificName() {
 		return scientificName;
-	}
+	} 
 	
 }
