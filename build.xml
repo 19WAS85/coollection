@@ -3,6 +3,7 @@
 	
 	<path id="lib">
         <fileset dir="lib" includes="**/*.jar"/>
+		<fileset dir="artifacts/main" includes="**/*.jar"/>
     </path>
 	
 	<path id="test">
@@ -21,7 +22,7 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"></javac>
+        <javac srcdir="src" destdir="build/classes"><classpath refid="lib"/></javac>
     </target>
 	
 	<target name="build" depends="resolve, clean, compile">
