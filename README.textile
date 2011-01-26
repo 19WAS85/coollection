@@ -49,6 +49,7 @@ There are other matchers to be precise!
 
 <pre>
 eq("Cat")
+eqIgnoreCase("Cat")
 contains("og")
 greaterThan(3)
 lessThan(10)
