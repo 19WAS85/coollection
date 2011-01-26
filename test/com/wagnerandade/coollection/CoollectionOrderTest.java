@@ -26,6 +26,7 @@ public class CoollectionOrderTest {
 		animals.add(new Animal("Bird", 2));
 		animals.add(new Animal("Cat", 3));
 		animals.add(new Animal(null, -200));
+		animals.add(new Animal("Unkown", null));
 	}
 	
 	@Test
