@@ -1,6 +1,6 @@
 package com.wagnerandade.coollection.reflection;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 public class Phanton<T> {
 	
@@ -16,13 +16,22 @@ public class Phanton<T> {
 		return new Phanton<T>(target);
 	}
 	
-	public Object call(String method) {
-		try {
-			Method m = clazz.getMethod(method);
-			return m.invoke(target);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	public Object call(String name) {
+		return invoke(name);
+	}
+
+	private Object invoke(String name){
+		for (final Field field : clazz.getDeclaredFields()) {
+			try {
+				if (name.equals(field.getName())){
+					field.setAccessible(Boolean.TRUE);
+					return field.get(target);
+				}
+			} catch (final IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
 		}
+		throw new RuntimeException("No such property with name " + name);
 	}
 	
 }

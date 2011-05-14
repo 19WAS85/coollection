@@ -26,6 +26,7 @@ public class CoollectionOrderTest {
 		animals.add(new Animal("Bird", 2));
 		animals.add(new Animal("Cat", 3));
 		animals.add(new Animal(null, -200));
+		animals.add(new Animal("Unkown", null));
 	}
 	
 	@Test
@@ -50,6 +51,16 @@ public class CoollectionOrderTest {
 	public void should_not_modify_original_collection_when_order() {
 		from(animals).orderBy("name").first();
 		assertThat(animals.get(0).name(), is("Lion"));
+	}
+	
+	@Test
+	public void should_be_possible_to_order_a_collection_by_a_string_looking_for_ugly_javabeans_and_get_first() {
+		List<Animal> animals = new ArrayList<Animal>();
+		animals.add(new Animal("Tapir", 5, "Tapirus bairdii"));
+		animals.add(new Animal("Chicken", 3, "Gallus gallus domesticus"));
+		animals.add(new Animal("Unkown Animal", 2, null));
+		Animal animal = from(animals).orderBy("scientificName").first();
+		assertThat(animal.name(), is("Chicken"));
 	}
 	
 }

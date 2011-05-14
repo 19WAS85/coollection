@@ -5,10 +5,8 @@
       <conf name="test"/>
     </configurations>
     <dependencies>
-        
-        <dependency conf="test" org="junit" name="junit" rev="4.8.1"/>
+		<dependency conf="test" org="junit" name="junit" rev="4.8.1"/>
         <dependency conf="test" org="org.mockito" name="mockito-all" rev="1.8.5"/>
         <dependency conf="test" org="org.hamcrest" name="hamcrest-all" rev="1.1"/>
-        
     </dependencies>
 </ivy-module>

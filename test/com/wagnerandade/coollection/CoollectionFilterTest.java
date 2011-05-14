@@ -24,8 +24,9 @@ public class CoollectionFilterTest {
 		animals.add(new Animal("Bird", 2));
 		animals.add(new Animal("Cat", 3));
 		animals.add(new Animal(null, -200));
+		animals.add(new Animal("Unkown", null));
 	}
-	
+
 	@Test
 	public void should_be_possible_create_a_filter_in_a_collection() {
 		List<Animal> filtered = from(animals).where("name", eq("Cat")).all();
@@ -64,9 +65,17 @@ public class CoollectionFilterTest {
 	}
 	
 	@Test
+	public void should_be_possible_use_equals_ignore_case_matcher() {
+		List<Animal> result = from(animals).where("name", eqIgnoreCase("cat")).all();
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0).name(), is("Cat"));
+		assertThat(result.get(1).name(), is("Cat"));
+	}
+	
+	@Test
 	public void should_be_possible_to_use_not_in_any_matcher() {
 		List<Animal> result = from(animals).where("name", not(contains("i"))).all();
-		assertThat(result.size(), is(4));
+		assertThat(result.size(), is(5));
 		assertThat(result.get(1).name(), is("Dog"));
 	}
 	
@@ -89,5 +98,14 @@ public class CoollectionFilterTest {
 		List<Animal> result = from(animals).where("name", isNull()).all();
 		assertThat(result.size(), is(1));
 		assertThat(result.get(0).age(), is(-200));
+	}
+	
+	@Test
+	public void should_be_possible_create_a_filter_in_a_collection_looking_for_ugly_javabeans_conventions() {
+		Animal tapir = new Animal("Tapir", 3, "Tapirus bairdii");
+		animals.add(tapir);
+		List<Animal> filtered = from(animals).where("scientificName", eq("Tapirus bairdii")).and("live", eq(true)).all();
+		assertThat(filtered.size(), is(1));
+		assertThat(filtered.get(0).name(), is("Tapir"));
 	}
 }

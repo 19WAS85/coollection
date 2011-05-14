@@ -21,7 +21,7 @@ public class OrderComparator<T> implements Comparator<T> {
 			return 0;
 		}
 		if(oneValue instanceof Comparable) {
-			return ((Comparable) oneValue).compareTo(otherValue);
+			return ((Comparable<Object>) oneValue).compareTo(otherValue);
 		} else {
 			return 0;
 		}

@@ -12,6 +12,9 @@ public class LessThan implements Matcher {
 
 	@Override
 	public boolean match(Object matchValue) {
+		if (matchValue == null){
+			return false;
+		}
 		return ((Number) matchValue).doubleValue() < value.doubleValue();
 	}
 
