@@ -68,6 +68,10 @@ public class Phanton<T> {
 			} catch (SecurityException e2) {
 			}
 		}
+
+		if(field==null && clazz.getSuperclass()!=Object.class) {
+			field = findField(fieldName, clazz.getSuperclass());
+		}
 		
 		return field;
 		
@@ -105,5 +109,17 @@ public class Phanton<T> {
 			}
 		}
 
+	}
+
+	public Class<?> getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
+
+	public T getTarget() {
+		return target;
 	}
 }

@@ -11,6 +11,7 @@ public class Equals implements Matcher {
 	}
 
 	public boolean match(Object anotherValue) {
+		if(value==null || anotherValue==null) return value == anotherValue;
 		return value.equals(anotherValue);
 	}
 

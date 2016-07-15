@@ -6,6 +6,8 @@ import org.simple.coollection.matcher.custom.Contains;
 import org.simple.coollection.matcher.custom.EndsWith;
 import org.simple.coollection.matcher.custom.Equals;
 import org.simple.coollection.matcher.custom.EqualsIgnoreCase;
+import org.simple.coollection.matcher.custom.EqualsIgnoreCaseTrim;
+import org.simple.coollection.matcher.custom.EqualsString;
 import org.simple.coollection.matcher.custom.GreaterThan;
 import org.simple.coollection.matcher.custom.IsNull;
 import org.simple.coollection.matcher.custom.IsNullOrEmpty;
@@ -25,14 +27,21 @@ public class Coollection {
 	public static Matcher eq(Object value) {
 		return new Equals(value);
 	}
+	public static Matcher eq(String value, boolean ignoreCase, boolean trimValues) {
+		return new EqualsString(value, ignoreCase, trimValues);
+	}
+	public static Matcher eqIgnoreCase(String value) {
+		return new EqualsIgnoreCase(value);
+	}
+	public static Matcher eqIgnoreCaseTrim(String value) {
+		return new EqualsIgnoreCaseTrim(value);
+	}
+
 	
 	public static Matcher contains(String value) {
 		return new Contains(value);
 	}
 	
-	public static Matcher eqIgnoreCase(String value) {
-		return new EqualsIgnoreCase(value);
-	}
 	
 	public static Matcher not(Matcher matcher) {
 		return new Not(matcher);

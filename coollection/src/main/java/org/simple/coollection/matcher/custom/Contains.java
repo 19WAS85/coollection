@@ -11,7 +11,7 @@ public class Contains implements Matcher {
 	}
 
 	public boolean match(Object value) {
-		return String.valueOf(matcherValue).contains(String.valueOf(matcherValue));
+		return String.valueOf(value).contains(matcherValue);
 	}
 
 }

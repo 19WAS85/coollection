@@ -10,6 +10,10 @@ public class Criteria<T> {
 	private final Matcher matcher;
 	private Specification<T> specification;
 
+	public Criteria(Matcher matcher) {
+		this.method = null;
+		this.matcher = matcher;
+	}
 	public Criteria(String method, Matcher matcher) {
 		this.method = method;
 		this.matcher = matcher;
@@ -25,7 +29,10 @@ public class Criteria<T> {
 	
 	public boolean match(T item) {
 		try {
-			Object value = Phanton.from(item).call(method);
+			Object value = null;
+			
+			value = method!=null? Phanton.from(item).call(method): item;
+			
 			return matcher.match(value);
 		} catch(Exception err) {
 			throw new RuntimeException(err);

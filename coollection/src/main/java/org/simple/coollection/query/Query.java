@@ -2,7 +2,6 @@ package org.simple.coollection.query;
 
 
 
-import static org.simple.coollection.Coollection.eq;
 import static org.simple.coollection.Coollection.from;
 
 import java.util.ArrayList;
@@ -34,16 +33,68 @@ public class Query<T> {
 		criterias = new CriteriaList<T>();
 	}
 
-	public <TInArr> Query<T> in(String method, TInArr... values) {
-		//Query<T> ret = this;
-		for (Object v : values) {
-			Criteria<T> criteria = new Criteria<T>(method, eq(v));
-			criteria.setSpecification(new OrSpecification<T>());
-			criterias.add(criteria);
-
-			//ret = ret.or(method, eq(v));
+	public Query<T> in(Collection<T> values) {
+		List<T> all = cloneCollection(collection);
+		List<T> in = new ArrayList<T>();
+		List<T> valuesCopy = cloneCollection(values);
+		
+		for (T sub : valuesCopy) {
+			
+			for (T v : all) {
+				if (v == null && sub == null) continue;
+				
+				T left = (v != null ? v : sub); 
+				T right = (v != null ? sub : v); 
+				
+				if(left.getClass().isAssignableFrom(String.class)){
+					if (left.toString().trim().equalsIgnoreCase(right.toString().trim())) in.add(v);
+					
+				}else{
+					if (left.equals(right)) in.add(v);
+				}
+			}
+			
+			all.removeAll(in);
+			
 		}
-		return this;
+		
+		return from(in);
+	}
+	public Query<T> in(T... values) {
+		return in(Arrays.asList(values));
+	}
+	public <TInArr> Query<T> in(String method, TInArr... values) {
+		return in(method, Arrays.asList(values));
+	}
+	
+	public <TInArr> Query<T> in(String method, Collection<TInArr> values) {
+		List<T> all = cloneCollection(collection);
+		List<T> in = new ArrayList<T>();
+		List<TInArr> valuesCopy = from(values).all();
+		
+		for (TInArr sub : valuesCopy) {
+			
+			for (T v : all) {
+				
+				TInArr v1 = (TInArr) Phanton.from(v).call(method);
+				if (v1 == null && sub == null) continue;
+				
+				TInArr left = (v1 != null ? v1 : sub); 
+				TInArr right = (v1 != null ? sub : v1); 
+				
+				if(left.getClass().isAssignableFrom(String.class)){
+					if (left.toString().trim().equalsIgnoreCase(right.toString().trim())) in.add(v);
+					
+				}else{
+					if (left.equals(right)) in.add(v);
+				}
+			}
+			
+			all.removeAll(in);
+			
+		}
+
+		return from(in);
 	}
 	public Query<T> where(String method, Matcher matcher) {
 		Criteria<T> criteria = new Criteria<T>(method, matcher);
@@ -101,6 +152,21 @@ public class Query<T> {
 		return null;
 	}
 
+	public List<T> firstOccours(int occours) {
+		List<T> all = cloneCollection(collection);
+		if(orderCriteria != null) {
+			all = orderCriteria.sort(all);
+		}
+		
+		ArrayList<T> list = new ArrayList<T>();
+		for(T item : all) {
+			if(criterias.match(item)) list.add(item);
+			if(list.size()>=occours) break;
+		}
+		
+		return list;
+	}
+
 	private List<T> cloneCollection(Collection<T> collection) {
 		List<T> list = new ArrayList<T>();
 		for(T item : collection) {
@@ -112,6 +178,7 @@ public class Query<T> {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public <TSub> Query<TSub> select (String method) {
 		List<TSub> select = new ArrayList<TSub>();
 		for (T t : all()) {
@@ -124,7 +191,20 @@ public class Query<T> {
 		}
 		return from(select);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public <TSub> Query<TSub> select (String method, Class<TSub> returnType) {
+		List<TSub> select = new ArrayList<TSub>();
+		for (T t : all()) {
+			try {
+				select.addAll((Collection<TSub>) Phanton.from(t).call(method));
+			}
+			catch (Exception e) {
+				select.add((TSub) Phanton.from(t).call(method));				
+			}
+		}
+		return from(select);
+	}
+
 	public void set(String method, Object newValue) {
 		for (T t : all()) {
 			Phanton.from(t).set(method, newValue);
@@ -141,14 +221,48 @@ public class Query<T> {
 		}
 		return groups;
 	}
-	
+
+	public Query<T> distinct() {
+		HashSet<T> distinct = new HashSet<T>();
+		
+		for (T t : all()) {
+			distinct.add(t);
+		}
+		
+		return (Query<T>) from(distinct);
+	}
 	public Query<T> distinct(String distinctBy) {
 		HashMap<Object, T> distinct = new HashMap<Object, T>();
-		for (T t : all()) {
-			Object v = (Object) Phanton.from(t).call(distinctBy);
-			if(distinct.containsKey(v)) continue;
+		
+		for (T element : all()) {
+			Object elementValue = (Object) Phanton.from(element).call(distinctBy);
 			
-			distinct.put(v, t);
+			if(distinct.containsKey(elementValue)) continue;
+			
+			distinct.put(elementValue, element);
+		}
+		return (Query<T>) from(distinct.values());
+	}
+	public Query<T> distinctString(String distinctBy) {
+		return distinctString(distinctBy, true, true);
+	}
+	public Query<T> distinctString(String distinctBy, boolean ignoreCase, boolean trimValues) {
+		HashMap<Object, T> distinct = new HashMap<Object, T>();
+		for (T element : all()) {
+			String elementValue = (String) Phanton.from(element).call(distinctBy);
+			
+			if(elementValue!=null){
+
+				if(trimValues && ignoreCase) elementValue = elementValue.trim().toUpperCase();
+				if(ignoreCase) elementValue = elementValue.toUpperCase();
+				if(trimValues) elementValue = elementValue.trim();
+				
+			}
+
+			
+			if(distinct.containsKey(elementValue)) continue;
+			
+			distinct.put(elementValue, element);
 		}
 		return (Query<T>) from(distinct.values());
 	}

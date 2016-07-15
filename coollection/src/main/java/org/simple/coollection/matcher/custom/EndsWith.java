@@ -14,7 +14,7 @@ public class EndsWith implements Matcher {
 		if(value==null && anotherValue==null)return true;
 		if(value==null || anotherValue==null)return false;
 		
-		return anotherValue.toString().toUpperCase().endsWith(value.toString().toUpperCase());
+		return value.toString().toUpperCase().endsWith(anotherValue.toString().toUpperCase());
 	}
 
 }

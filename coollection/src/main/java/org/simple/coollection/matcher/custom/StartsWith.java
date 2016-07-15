@@ -15,7 +15,7 @@ public class StartsWith implements Matcher {
 		if(value==null && anotherValue==null)return true;
 		if(value==null || anotherValue==null)return false;
 		
-		return anotherValue.toString().toUpperCase().startsWith(value.toString().toUpperCase());
+		return value.toString().toUpperCase().startsWith(anotherValue.toString().toUpperCase());
 	}
 
 }

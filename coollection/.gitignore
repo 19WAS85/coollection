@@ -2,3 +2,4 @@ artifacts
 bin
 build
 /target/
+/repository/
