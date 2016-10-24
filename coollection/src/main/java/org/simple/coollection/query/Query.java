@@ -32,7 +32,26 @@ public class Query<T> {
 		this.collection = collection;
 		criterias = new CriteriaList<T>();
 	}
-
+	
+	public Query<T> each(CallbackEach<T> callback) {
+		List<T> all = cloneCollection(collection);
+		if(orderCriteria != null) {
+			all = orderCriteria.sort(all);
+		}
+		
+		ArrayList<T> list = new ArrayList<T>();
+		int index = -1;
+		for(T item : all) {
+			if(criterias.match(item)) {
+				
+				boolean ret = callback.each(item, index+=1);
+				
+				if(ret) list.add(item);
+			}
+		}
+		
+		return from(list);
+	}
 	public Query<T> in(Collection<T> values) {
 		List<T> all = cloneCollection(collection);
 		List<T> in = new ArrayList<T>();
