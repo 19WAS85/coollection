@@ -308,7 +308,7 @@ public class Query<T> {
 	/**
 	 * 
 	 * @param maxBy the return value for this property should implements {java.lang.Comparable<Object>}  
-	 * @param clazz especifie the Class type of return type from param maxBy
+	 * @param clazz especify the Class type of return type from param maxBy
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
