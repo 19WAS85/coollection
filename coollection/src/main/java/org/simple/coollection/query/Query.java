@@ -2,8 +2,10 @@ package org.simple.coollection.query;
 
 
 
-import static org.simple.coollection.Coollection.from;
 
+import static org.simple.coollection.Coollection.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -296,5 +298,32 @@ public class Query<T> {
 			catch (Exception e) {}
 		}
 		return (double) sum;
+	}
+
+	public  Query<T> max(String maxBy, Class<?> maxByType) {
+		Object max = maxValue(maxBy, maxByType);
+		return (Query<T>) where(maxBy, eq(max));
+	}
+
+	/**
+	 * 
+	 * @param maxBy the return value for this property should implements {java.lang.Comparable<Object>}  
+	 * @param clazz especifie the Class type of return type from param maxBy
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <TSub> TSub maxValue(String maxBy, Class<TSub> maxByType) {
+		Comparable<Object> max = (Comparable<Object>)select(maxBy).first();
+		if(max==null) return null;
+		
+		for (T t : all()) {
+			Comparable<Object> v = (Comparable<Object>) Phanton.from(t).call(maxBy);
+			try {
+				if (max.compareTo(v)==-1) { max = v;}
+			} catch (Exception e) {
+			}
+		}
+
+		return (TSub)max;
 	}
 }
