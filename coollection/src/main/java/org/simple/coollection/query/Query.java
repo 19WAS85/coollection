@@ -1,8 +1,6 @@
 package org.simple.coollection.query;
 
 
-
-
 import static org.simple.coollection.Coollection.eq;
 import static org.simple.coollection.Coollection.from;
 
@@ -53,6 +51,7 @@ public class Query<T> {
 		
 		return from(list);
 	}
+
 
 	public Query<T> where(String method, Matcher matcher) {
 		Criteria<T> criteria = new Criteria<T>(method, matcher);

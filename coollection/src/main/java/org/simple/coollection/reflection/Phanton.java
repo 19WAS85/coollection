@@ -18,6 +18,7 @@ public class Phanton<T> {
 	}
 	
 	public Object call(String name) {
+		if(name==null || "".equals(name.trim()) || "$".equals(name)) return target;
 		return invoke(name);
 	}
 
