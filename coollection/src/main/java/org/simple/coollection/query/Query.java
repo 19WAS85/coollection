@@ -3,11 +3,10 @@ package org.simple.coollection.query;
 
 
 
-import static org.simple.coollection.Coollection.*;
+import static org.simple.coollection.Coollection.eq;
+import static org.simple.coollection.Coollection.from;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,69 +53,7 @@ public class Query<T> {
 		
 		return from(list);
 	}
-	public Query<T> in(Collection<T> values) {
-		List<T> all = cloneCollection(collection);
-		List<T> in = new ArrayList<T>();
-		List<T> valuesCopy = cloneCollection(values);
-		
-		for (T sub : valuesCopy) {
-			
-			for (T v : all) {
-				if (v == null && sub == null) continue;
-				
-				T left = (v != null ? v : sub); 
-				T right = (v != null ? sub : v); 
-				
-				if(left.getClass().isAssignableFrom(String.class)){
-					if (left.toString().trim().equalsIgnoreCase(right.toString().trim())) in.add(v);
-					
-				}else{
-					if (left.equals(right)) in.add(v);
-				}
-			}
-			
-			all.removeAll(in);
-			
-		}
-		
-		return from(in);
-	}
-	public Query<T> in(T... values) {
-		return in(Arrays.asList(values));
-	}
-	public <TInArr> Query<T> in(String method, TInArr... values) {
-		return in(method, Arrays.asList(values));
-	}
-	
-	public <TInArr> Query<T> in(String method, Collection<TInArr> values) {
-		List<T> all = cloneCollection(collection);
-		List<T> in = new ArrayList<T>();
-		List<TInArr> valuesCopy = from(values).all();
-		
-		for (TInArr sub : valuesCopy) {
-			
-			for (T v : all) {
-				
-				TInArr v1 = (TInArr) Phanton.from(v).call(method);
-				if (v1 == null && sub == null) continue;
-				
-				TInArr left = (v1 != null ? v1 : sub); 
-				TInArr right = (v1 != null ? sub : v1); 
-				
-				if(left.getClass().isAssignableFrom(String.class)){
-					if (left.toString().trim().equalsIgnoreCase(right.toString().trim())) in.add(v);
-					
-				}else{
-					if (left.equals(right)) in.add(v);
-				}
-			}
-			
-			all.removeAll(in);
-			
-		}
 
-		return from(in);
-	}
 	public Query<T> where(String method, Matcher matcher) {
 		Criteria<T> criteria = new Criteria<T>(method, matcher);
 		criterias.add(criteria);

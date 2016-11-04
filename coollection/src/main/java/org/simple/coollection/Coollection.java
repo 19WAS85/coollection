@@ -1,7 +1,10 @@
 package org.simple.coollection;
 
 import java.util.Collection;
+import java.util.List;
+
 import org.simple.coollection.matcher.Matcher;
+import org.simple.coollection.matcher.custom.Between;
 import org.simple.coollection.matcher.custom.Contains;
 import org.simple.coollection.matcher.custom.EndsWith;
 import org.simple.coollection.matcher.custom.Equals;
@@ -9,6 +12,7 @@ import org.simple.coollection.matcher.custom.EqualsIgnoreCase;
 import org.simple.coollection.matcher.custom.EqualsIgnoreCaseTrim;
 import org.simple.coollection.matcher.custom.EqualsString;
 import org.simple.coollection.matcher.custom.GreaterThan;
+import org.simple.coollection.matcher.custom.In;
 import org.simple.coollection.matcher.custom.IsNull;
 import org.simple.coollection.matcher.custom.IsNullOrEmpty;
 import org.simple.coollection.matcher.custom.LessThan;
@@ -24,6 +28,10 @@ public class Coollection {
 		return new Query<T>(collection);
 	}
 	
+	public static Matcher between(Object min, Object max) {
+		return new Between(min, max);
+	}
+
 	public static Matcher eq(Object value) {
 		return new Equals(value);
 	}
@@ -67,6 +75,13 @@ public class Coollection {
 	}
 	public static Matcher startsWith(Object value) {
 		return new StartsWith(value);
+	}
+
+	public static Matcher in(Object... values) {
+		return new In(values);
+	}
+	public static Matcher in(List<Object> values) {
+		return new In(values);
 	}
 
 }
