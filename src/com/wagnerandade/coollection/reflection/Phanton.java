@@ -23,15 +23,26 @@ public class Phanton<T> {
   private Object invoke(String name) {
     for (final Field field : clazz.getDeclaredFields()) {
       try {
-                if (name.toLower().equals(field.getName().toLower()) || "get" + name.equals(field.getName())
-             ) {
+        if (name.equals(field.getName())) {
+          field.setAccessible(Boolean.TRUE);
+          return field.get(target);
+        }
+        String formatedName = name.toLowerCase().replace("get", "");
+        String formatedfieldName = field.getName().toLowerCase().replace("get", "");
+        if (formatedName.equals(formatedfieldName)) {
+          field.setAccessible(Boolean.TRUE);
+          return field.get(target);
+        }
+        String formatedGetName = "get" + name;
+        String formatedGetFieldName = "get" + field.getName();
+        if (formatedGetName.equals(formatedGetFieldName))
+        {
           field.setAccessible(Boolean.TRUE);
           return field.get(target);
         }
       } catch (final IllegalAccessException e) {
         throw new RuntimeException(e);
       }
-    }
-    throw new RuntimeException("No such property with name " + name);
+    } throw new RuntimeException("No such property with name " + name);
   }
 }

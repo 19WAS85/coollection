@@ -22,12 +22,13 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"><classpath refid="lib"/></javac>
+        <javac target="1.7" source="1.7" srcdir="src" destdir="build/classes"><classpath refid="lib"/>
+        </javac>
     </target>
 	
 	<target name="build" depends="resolve, clean, compile">
 		<delete file="build/coollection.jar"/>
-		<jar destfile="build/coollection.jar" basedir="build/classes">
+		<jar  destfile="build/coollection.jar" basedir="build/classes">
 			<fileset dir="src"></fileset>
 		</jar>
     </target>
