@@ -1,3 +1,5 @@
+Hey folks! I'm have not been around, as you can see. However I know many devs still using coollection, and even creating your own forks. I'm opened to anyone who decide to keep this alive, please get in touch.
+
 h1. Coollection
 
 *A cool way to manipulate collections in Java.*
