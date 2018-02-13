@@ -1,84 +1,84 @@
-Hey folks! I'm have not been around, as you can see. However I know many devs still using coollection, and even creating your own forks. I'm opened to anyone who decide to keep this alive, please get in touch.
+Hey folks! I have not been around, as you can see. However, I know many devs still using coollection, and even creating their own forks. I'm open to anyone who decides to keep this alive, please get in touch.
 
-h1. Coollection
+# Coollection
 
 *A cool way to manipulate collections in Java.*
 
-Iterate over a collection is a medieval way to filtering, mapping and ordering. And with Java we are used to work like that. Coollection changes that, is the future, while closures don't arrives for Java.
+Iterate over a collection is a medieval way to filtering, mapping and ordering. And with Java we are used to work like that. Coollection changes that, is the future, while closures don't arrive for Java.
 
-"Download Coollection 0.2.0":http://github.com/downloads/wagnerandrade/coollection/coollection-0.2.0.jar
+[Download Coollection 0.2.0]: http://github.com/downloads/wagnerandrade/coollection/coollection-0.2.0.jar
 
-h2. How it works?
+## How it works?
 
-It's easy to use. Just add @import static com.wagnerandade.coollection.Coollection.*;@ in your class and... More nothing!
+It's easy to use. Just add `import static com.wagnerandade.coollection.Coollection.*;` in your class and that's it!
 
-h2. How to use this?
+## How to use this?
 
-h3. 1 - Filter
+### 1 - Filter
 
 First you need a Collection. Here we create a Animal List, and we called it animals.
 
-<pre>
+```java
 List<Animal> animals;
-</pre>
+```
 
 Later you goes add a lot of animals in this list.
 
-Now, you want to take *all* cats, it's easy for Coollections! In this case, name is a method (@animal.name()@).
+Now, you want to take *all* cats, it's easy for Coollections! In this case, name is a method (`animal.name()`).
 
-<pre>
+```java
 from(animals).where("name", eq("Cat")).all();
-</pre>
+```
 
 Or, would the *first* animal with 2 year old? Easy too!
 
-<pre>
+```java
 from(animals).where("age", eq(2)).first();
-</pre>
+```
 
-h3. 2 - Filter specification
+### 2 - Filter specification
 
 You can be more specific in your query, adding more specifications, like *and* and *or*.
 
-<pre>
+```java
 from(animals).where("name", eq("Lion")).and("age", eq(2)).all();
 from(animals).where("name", eq("Dog")).or("age", eq(5)).all();
-</pre>
+```
 
-h3. 3 - Matchers
+### 3 - Matchers
 
 There are other matchers to be precise!
 
-<pre>
+```java
 eq("Cat")
 eqIgnoreCase("Cat")
 contains("og")
 greaterThan(3)
 lessThan(10)
 isNull()
-</pre>
+```
 
 Or a special matcher, called *not*.
 
-<pre>
+```java
 not(eq("Bird"))
 not(contains("at"))
 not(isNull())
-</pre>
+```
 
-h3. 4 - Order
+### 4 - Order
 
 Order is a very interesting feature to sort your collection.
 
-<pre>
+```java
 from(animals).where("name", eq("Cat")).orderBy("age").all();
 from(animals).where("age", eq(5)).orderBy("name", Order.DESC).first();
-</pre>
+```
 
 You can use just order, without filter.
 
-<pre>
+```java
 from(animals).orderBy("name");
-</pre>
+```
 
 Be happy!
