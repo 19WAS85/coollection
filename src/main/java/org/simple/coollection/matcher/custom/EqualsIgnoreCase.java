@@ -4,15 +4,15 @@ import org.simple.coollection.matcher.Matcher;
 
 public class EqualsIgnoreCase implements Matcher {
 
-	private final String value;
+  private final String value;
 
-	public EqualsIgnoreCase(String value) {
-		this.value = value;
-	}
+  public EqualsIgnoreCase(String value) {
+    this.value = value;
+  }
 
-	@Override
-	public boolean match(Object anotherValue) {
-		return (value).equalsIgnoreCase((String)anotherValue);
-	}
+  @Override
+  public boolean match(Object anotherValue) {
+    return (value).equalsIgnoreCase((String) anotherValue);
+  }
 
 }

@@ -4,15 +4,15 @@ import org.simple.coollection.matcher.Matcher;
 
 public class Not implements Matcher {
 
-	private final Matcher matcher;
+  private final Matcher matcher;
 
-	public Not(Matcher matcher) {
-		this.matcher = matcher;
-	}
+  public Not(Matcher matcher) {
+    this.matcher = matcher;
+  }
 
-	@Override
-	public boolean match(Object value) {
-		return !matcher.match(value);
-	}
+  @Override
+  public boolean match(Object value) {
+    return !matcher.match(value);
+  }
 
 }

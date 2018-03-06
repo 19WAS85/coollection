@@ -4,15 +4,15 @@ import org.simple.coollection.matcher.Matcher;
 
 public class Equals implements Matcher {
 
-	private final Object value;
+  private final Object value;
 
-	public Equals(Object value) {
-		this.value = value;
-	}
+  public Equals(Object value) {
+    this.value = value;
+  }
 
-	@Override
-	public boolean match(Object anotherValue) {
-		return value.equals(anotherValue);
-	}
+  @Override
+  public boolean match(Object anotherValue) {
+    return value.equals(anotherValue);
+  }
 
 }
