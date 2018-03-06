@@ -10,7 +10,7 @@ Iterate over a collection is a medieval way to filtering, mapping and ordering. 
 
 ## How it works?
 
-It's easy to use. Just add `import static com.wagnerandade.coollection.Coollection.*;` in your class and that's it!
+It's easy to use. Just add `import static org.simple.coollection.Coollection.*;` in your class and that's it!
 
 ## How to use this?
 
